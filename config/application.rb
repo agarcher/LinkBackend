@@ -23,5 +23,10 @@ module LinkBackend
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Load dotenv only in development or test environment
+    if [ "development", "test" ].include? ENV["RAILS_ENV"]
+      Dotenv::Rails.load
+    end
   end
 end
