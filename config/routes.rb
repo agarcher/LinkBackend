@@ -13,4 +13,5 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   post "/twilio/webhook", to: "twilio#webhook"
+  post "/tally/webhook", to: "tally#webhook"
 end
