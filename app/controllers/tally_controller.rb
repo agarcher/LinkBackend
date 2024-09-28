@@ -12,11 +12,18 @@ class TallyController < ApplicationController
     availability = find_availability(fields)
     bio = find_field_value(fields, "Tell us about you")
 
-    Rails.logger.info("Tally Form Submission:")
-    Rails.logger.info("Name: #{name}")
-    Rails.logger.info("Phone Number: #{phone_number}")
-    Rails.logger.info("Preferred Availability: #{availability}")
-    Rails.logger.info("Bio: #{bio}")
+    user = User.find_or_initialize_by(phone_number: phone_number)
+    user.update(
+      name: name,
+      availability: availability,
+      bio: bio
+    )
+
+    if user.save
+      Rails.logger.info("User profile created/updated: #{user.id}")
+    else
+      Rails.logger.error("Failed to save user profile: #{user.errors.full_messages}")
+    end
 
     head :ok
   end

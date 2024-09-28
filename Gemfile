@@ -60,3 +60,4 @@ group :test do
 end
 
 gem "twilio-ruby", "~> 7.3"
+gem "pg"
