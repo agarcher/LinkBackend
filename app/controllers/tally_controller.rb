@@ -13,6 +13,8 @@ class TallyController < ApplicationController
     bio = find_field_value(fields, "Tell us about you")
 
     user = User.find_or_initialize_by(phone_number: phone_number)
+    is_new_user = user.new_record?
+
     user.update(
       name: name,
       availability: availability,
@@ -21,6 +23,7 @@ class TallyController < ApplicationController
 
     if user.save
       Rails.logger.info("User profile created/updated: #{user.id}")
+      send_message(user, is_new_user)
     else
       Rails.logger.error("Failed to save user profile: #{user.errors.full_messages}")
     end
@@ -44,5 +47,17 @@ class TallyController < ApplicationController
     else
       nil
     end
+  end
+
+  def send_message(user, is_new_user)
+    message_sender = MessageSender.new(user.phone_number)
+
+    if is_new_user
+      message = "Welcome to Link! I'm your Link assistant. You'll hear from me weekly to see if you'd like to be connected with someone from the community."
+    else
+      message = "Thanks for updating your information! We've updated your profile based on your new form submission."
+    end
+
+    message_sender.send(message)
   end
 end
