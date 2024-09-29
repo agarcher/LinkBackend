@@ -23,7 +23,9 @@ class TallyController < ApplicationController
 
     if user.save
       Rails.logger.info("User profile created/updated: #{user.id}")
-      send_message(user, is_new_user)
+
+      # disable welcome messages until demo
+      # send_message(user, is_new_user)
     else
       Rails.logger.error("Failed to save user profile: #{user.errors.full_messages}")
     end
