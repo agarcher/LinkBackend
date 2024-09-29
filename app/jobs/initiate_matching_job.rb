@@ -35,7 +35,7 @@ class InitiateMatchingJob < ApplicationJob
           "Phone" => user_match.user.phone_number,
           "Bio" => user_match.user.bio,
           "Availability" => user_match.user.availability,
-          "Response" => user_match.topic_response,
+          "Response" => user_match.topic_response || "",
         }
       end
     end

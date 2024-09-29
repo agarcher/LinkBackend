@@ -9,11 +9,16 @@ class MessageSender
     from = ENV["TWILIO_PHONE_NUMBER"]
     to = @phone_number
 
-    # Only message me while testing and debugging
-    valid_numbers = ["+14164276719", "+16478973143"]
-    if (!valid_numbers.include?(@phone_number))
+    # exclude numbers that have not been verified on twilio
+    invalid_numbers = ["+16478543425", "+17708801136", "+14159107172", "+16479145611"]
+    if (invalid_numbers.include?(@phone_number))
       return
     end
+
+    # valid_numbers = ["+14164276719", "+16478973143", "+16472018395", "+16476776878"]
+    # if (!valid_numbers.include?(@phone_number))
+    #   return
+    # end
 
     # Call create with named arguments using double splat operator
     if (media_urls.any?)
