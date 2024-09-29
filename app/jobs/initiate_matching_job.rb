@@ -2,22 +2,36 @@ class InitiateMatchingJob < ApplicationJob
   queue_as :default
 
   def perform
-    success_count = 0
-    User.find_each do |user|
-      begin
-        ActiveRecord::Base.transaction do
-          UserMatch.create!(user: user, opt_in_sms_sent: Time.current)
+    ActiveRecord::Base.transaction do
+      # Fetch the latest UserMatch record for each user_id and preload the associated users
+      latest_matches = UserMatch.select('DISTINCT ON (user_id) *')
+                                .order('user_id, id DESC')
+                                .includes(:user)
 
-          message = "Hi #{user.first_name}! Do you want to link up with someone new this week?"
-          MessageSender.new(user.phone_number).send_message(message)
+      # Process the matches
+      match_data = []
+      latest_matches.each do |user_match|
+        if (user_match.opt_in_result.nil?)
+          # TODO notify the user that we are starting matching and they are being opted out automatically?
+          user_match.opt_in_result = false
         end
+        user_match.matching_started = true
+        user_match.save!
 
-        success_count += 1
-      rescue StandardError => e
-        Rails.logger.error("Skipping #{user.name} (#{user.id}) because matching failed: #{e.message}")
+        next if (!user_match.opt_in_result?)
+
+        match_data << {
+          "Name" => user_match.user.name,
+          "Phone" => user_match.user.phone_number,
+          "Bio" => user_match.user.bio,
+          "Availability" => user_match.user.availability,
+          "Response" => user_match.topic_response,
+        }
       end
-    end
 
-    Rails.logger.info("Initiated matching for #{success_count} users")
+      # Log the match data
+      Rails.logger.info("Initiating matching for #{match_data.length} users")
+      Rails.logger.info("Match data: #{match_data}")
+    end
   end
 end

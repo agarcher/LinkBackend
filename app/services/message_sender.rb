@@ -9,6 +9,11 @@ class MessageSender
     from = ENV["TWILIO_PHONE_NUMBER"]
     to = @phone_number
 
+    # Only message me while testing and debugging
+    if (@phone_number != "+14164276719")
+      return
+    end
+
     # Call create with named arguments using double splat operator
     if (media_urls.any?)
       client.messages.create(
