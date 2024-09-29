@@ -3,16 +3,26 @@ class MessageSender
     @phone_number = phone_number
   end
 
-  def send(message)
+  def send_message(message, media_urls = [])
     client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"])
 
     from = ENV["TWILIO_PHONE_NUMBER"]
     to = @phone_number
 
-    client.messages.create(
-      from: from,
-      to: to,
-      body: message
-    )
+    # Call create with named arguments using double splat operator
+    if (media_urls.any?)
+      client.messages.create(
+        from: from,
+        to: to,
+        body: message,
+        media_url: media_urls
+      )
+    else
+      client.messages.create(
+        from: from,
+        to: to,
+        body: message
+      )
+    end
   end
 end

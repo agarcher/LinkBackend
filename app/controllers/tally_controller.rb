@@ -25,7 +25,7 @@ class TallyController < ApplicationController
       Rails.logger.info("User profile created/updated: #{user.id}")
 
       # disable welcome messages until demo
-      # send_message(user, is_new_user)
+      send_message(user, is_new_user)
     else
       Rails.logger.error("Failed to save user profile: #{user.errors.full_messages}")
     end
@@ -60,6 +60,6 @@ class TallyController < ApplicationController
       message = "Thanks for updating your information! We've updated your profile based on your new form submission."
     end
 
-    message_sender.send(message)
+    message_sender.send_message(message)
   end
 end

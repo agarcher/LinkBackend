@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   post "/twilio/webhook", to: "twilio#webhook"
   post "/tally/webhook", to: "tally#webhook"
+  get "/vcard/:user_id", to: "vcards#generate", as: :generate_vcard
 
   # Mount Sidekiq web interface
   mount Sidekiq::Web => "/sidekiq"

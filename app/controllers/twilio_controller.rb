@@ -31,7 +31,7 @@ class TwilioController < ApplicationController
         handle_topic_message(last_match, message_body)
       end
 
-      MessageSender.new(user.phone_number).send(sms_response)
+      MessageSender.new(user.phone_number).send_message(sms_response)
     end
 
     head :ok
