@@ -28,5 +28,8 @@ module LinkBackend
     if [ "development", "test" ].include? ENV["RAILS_ENV"]
       Dotenv::Rails.load
     end
+
+    # Use Sidekiq as the Active Job backend
+    config.active_job.queue_adapter = :sidekiq
   end
 end

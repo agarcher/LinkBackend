@@ -61,3 +61,4 @@ end
 
 gem "twilio-ruby", "~> 7.3"
 gem "pg"
+gem "sidekiq"
