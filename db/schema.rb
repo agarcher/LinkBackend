@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_29_005626) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_29_150748) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,6 +26,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_005626) do
     t.bigint "matched_user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "match_message"
     t.index ["matched_user_id"], name: "index_user_matches_on_matched_user_id"
     t.index ["user_id"], name: "index_user_matches_on_user_id"
   end

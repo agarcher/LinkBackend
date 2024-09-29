@@ -10,7 +10,8 @@ class MessageSender
     to = @phone_number
 
     # Only message me while testing and debugging
-    if (@phone_number != "+14164276719")
+    valid_numbers = ["+14164276719", "+16478973143"]
+    if (!valid_numbers.include?(@phone_number))
       return
     end
 

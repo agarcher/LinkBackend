@@ -26,6 +26,7 @@ services:
       TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
       TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
+      MATCH_SERVICE_URL: ${MATCH_SERVICE_URL}
       DATABASE_URL: postgres://postgres:password@db/link_backend_development
       HOSTNAME: ${HOSTNAME}
 
@@ -46,6 +47,7 @@ services:
       TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
       TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
+      MATCH_SERVICE_URL: ${MATCH_SERVICE_URL}
       DATABASE_URL: postgres://postgres:password@db/link_backend_development
       HOSTNAME: ${HOSTNAME}
 
